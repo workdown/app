@@ -1,0 +1,24 @@
+{
+  "name": "workdown",
+  "version": "0.0.1",
+  "description": "",
+  "main": "build/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/workdown/app.git"
+  },
+  "author": "",
+  "license": "GPL-2.0-only",
+  "bugs": {
+    "url": "https://github.com/workdown/app/issues"
+  },
+  "homepage": "https://github.com/workdown/app#readme",
+  "devDependencies": {
+    "electron": "^33.2.1"
+  }
+}
