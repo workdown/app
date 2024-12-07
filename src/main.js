@@ -1,11 +1,22 @@
-const { app, BrowserWindow, Menu, MenuItem, ipcMain, nativeTheme } = require('electron/main');
+const {
+    app,
+    BrowserWindow,
+    Menu,
+    Notification,
+    dialog,
+    ipcMain,
+    nativeTheme,
+} = require('electron/main');
 const path = require('node:path')
 const fs = require("fs")
 
 const isMac = process.platform === 'darwin'
 
+let win;
+let openedFilePath;
+
 const createWindow = () => {
-    const win = new BrowserWindow({
+    win = new BrowserWindow({
         width: 1200,
         height: 800,
         title: "Workdown",
@@ -42,16 +53,28 @@ const createWindow = () => {
                 {
                     label: "New File",
                     click: () => ipcMain.emit("new-file"),
+                    accelerator: 'CmdOrCtrl+N',
                 },
                 {
                     label: "New Folder",
                     click: () => ipcMain.emit("new-folder"),
+                    accelerator: 'CmdOrCtrl+Shift+N',
                 },
                 { type: "separator" },
                 {
                     label: "Open...",
-                    role: "open",
+                    click: () => ipcMain.emit("open-document-triggered"),
                     accelerator: 'CmdOrCtrl+O',
+                },
+                {
+                    label: "Open Recent",
+                    role: "recentdocuments",
+                    submenu: [
+                        {
+                            label: "Clear Recent",
+                            role: "clearrecentdocuments",
+                    },
+                    ],
                 },
                 isMac ? { role: 'close' } : { role: 'quit' },
             ],
@@ -134,4 +157,66 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
     }
+});
+
+const handleError = () => {
+    new Notification({
+        title: "Error",
+        body: "Something went wrong.",
+    }).show();
+};
+
+const openFile = (filePath) => {
+    fs.readFile(filePath, "utf8", (error, content) => {
+        if (error) {
+            handleError();
+        } else {
+            app.addRecentDocument(filePath);
+            openedFilePath = filePath;
+            win.webContents.send("document-opened", { filePath, content });
+        }
+    });
+};
+
+app.on("open-file", (_, filePath) => {
+    openFile(filePath);
+});
+
+ipcMain.on("open-document-triggered", () => {
+    dialog
+    .showOpenDialog({
+        properties: ["openFile"],
+        filters: [{ name: "text files", extensions: ["md", "markdown", "txt"] }],
+    })
+    .then(({ filePaths }) => {
+        const filePath = filePaths[0];
+
+        openFile(filePath);
+    });
+});
+
+ipcMain.on("create-document-triggered", () => {
+    dialog
+    .showSaveDialog(win, {
+        filters: [{ name: "text files", extensions: ["md", "markdown", "txt"] }],
+    })
+    .then(({ filePath }) => {
+        fs.writeFile(filePath, "", (error) => {
+            if (error) {
+                handleError();
+            } else {
+                app.addRecentDocument(filePath);
+                openedFilePath = filePath;
+                win.webContents.send("document-created", filePath);
+            }
+        });
+    });
+});
+
+ipcMain.on("file-content-updated", (_, textareaContent) => {
+    fs.writeFile(openedFilePath, textareaContent, (error) => {
+        if (error) {
+            handleError();
+        }
+    });
 });
