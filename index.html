@@ -6,10 +6,14 @@
     <title>Workdown</title>
 </head>
 <style>
+    :root {
+        color-scheme: light dark;
+    }
+
     body {
-        background-color: #2C2C2E;
         margin: 0;
     }
+
     .titlebar {
         height: 45px;
         display: flex;
@@ -17,8 +21,74 @@
         align-items: center;
         app-region: drag;
     }
+
+    .explorer {
+        width: 20%;
+        height: 100%;
+        position: fixed;
+        overflow: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    main {
+        position: fixed;
+        display: flex;
+        overflow: auto;
+        width: 100%;
+        top: 60px;
+        left: 20%;
+        height: 100%;
+        border-top-left-radius: 9px;
+    }
+
+    .content {
+        margin: 5%;
+    }
+
+    .content textarea {
+        margin-right: 5%;
+        border: 0;
+        display: flex;
+        position: fixed;
+        width: 70%;
+        height: 100%;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        body {
+            background-color: rgb(44, 44, 46);
+            color: white;
+        }
+        main {
+            background-color: rgb(28, 28, 30);
+        }
+        .content textarea {
+            background-color: rgb(242, 242, 247);
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        body {
+            background-color: rgb(229, 229, 234);
+        }
+        main {
+            background-color: rgb(242, 242, 247);
+        }
+        .content textarea {
+            background-color: rgb(242, 242, 247);
+        }
+    }
 </style>
 <body>
     <div class="titlebar"></div>
+    <div class="explorer">HEllo world!</div>
+    <main>
+        <div class="content">
+            <textarea></textarea>
+        </div>
+    </main>
+    <script src="renderer.js"></script>
 </body>
 </html>
