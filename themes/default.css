@@ -1,0 +1,75 @@
+:root {
+    color-scheme: light dark;
+}
+
+body {
+    margin: 0;
+}
+
+.titlebar {
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    app-region: drag;
+}
+
+.explorer {
+    width: 20%;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main {
+    position: fixed;
+    display: flex;
+    overflow: auto;
+    width: 100%;
+    top: 45px;
+    left: 20%;
+    height: 100%;
+    border-top-left-radius: 9px;
+}
+
+.content {
+    margin: 5%;
+}
+
+.content textarea {
+    margin-right: 5%;
+    border: none;
+    display: flex;
+    position: fixed;
+    width: 70%;
+    height: calc(95% - 45px);
+    resize: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: rgb(44, 44, 46);
+        color: white;
+    }
+    main {
+        background-color: rgb(28, 28, 30);
+    }
+    .content textarea {
+        background-color: rgb(28, 28, 30);
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: rgb(229, 229, 234);
+    }
+    main {
+        background-color: rgb(242, 242, 247);
+    }
+    .content textarea {
+        background-color: rgb(242, 242, 247);
+    }
+}

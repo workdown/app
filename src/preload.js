@@ -11,6 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
     };
 
     const handleDocumentChange = (filePath, content = "") => {
+        el.fileTextarea.removeAttribute("disabled");
         el.fileTextarea.value = content;
         el.fileTextarea.focus();
     };

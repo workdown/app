@@ -37,6 +37,11 @@ const createWindow = () => {
                 submenu: [
                     { role: 'about' },
                     { type: 'separator' },
+                    {
+                        label: 'Settings...',
+                        accelerator: 'CmdOrCtrl+,',
+                    },
+                    { type: 'separator' },
                     { role: 'services' },
                     { type: 'separator' },
                     { role: 'hide' },
@@ -195,7 +200,7 @@ ipcMain.on("open-document-triggered", () => {
     });
 });
 
-ipcMain.on("create-document-triggered", () => {
+ipcMain.on("new-file", () => {
     dialog
     .showSaveDialog(win, {
         filters: [{ name: "text files", extensions: ["md", "markdown", "txt"] }],
