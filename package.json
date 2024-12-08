@@ -3,7 +3,7 @@
   "productName": "Workdown",
   "version": "0.0.2",
   "description": "",
-  "main": "src/main.js",
+  "main": "src/main/app.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"

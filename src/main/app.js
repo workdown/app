@@ -24,11 +24,11 @@ const createWindow = () => {
         ...(process.platform !== 'darwin' ? { titleBarOverlay: true } : {}),
         trafficLightPosition: { x: 15, y: 15 },
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, '../preload/preload.js')
         }
     });
 
-    win.loadFile('index.html');
+    win.loadFile('public/index.html');
 
     const menuTemplate = [
         ...(isMac
